@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "GetMovies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@model  Mvc5DemoAppLearn.ViewModels.RandomMovieViewModel
+
+
+@{
+    var classname = Model.Customers.Count > 1 ? "popular" : null;
+}
+<h2 class="@classname">@Model.Movie.MovieName </h2>
+
+
+@if (Model.Customers.Count <= 0)
+{
+    <p>No Customer Found for this Movie.</p>
+}
+
+<ul></ul>
+@foreach (var customer in Model.Customers)
+{
+    <li>@customer.CustomerName</li>
+}
+

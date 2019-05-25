@@ -1,0 +1,14 @@
+﻿@model Mvc5DemoAppLearn.Models.Customer
+@{
+    ViewBag.Title = "CustomerDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.CustomerName</h2>
+
+@if (Model.BirthDate.HasValue)
+{
+    <h3>@Model.BirthDate.Value.ToShortDateString()</h3>
+
+}
+

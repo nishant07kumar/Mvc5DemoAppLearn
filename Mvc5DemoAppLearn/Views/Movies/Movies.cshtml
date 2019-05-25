@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Mvc5DemoAppLearn.Models.Movie>
+
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Movie
+        </th>
+        <th>
+            Genre
+        </th>
+        >
+    </tr>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td><h2>Movies are not there for Movie Rental Application.</h2></td>
+        </tr>
+    }
+    else
+    {
+        foreach (var movie in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(movie.MovieName, "MovieDetails", "Movies", new { movieId = movie.Id }, null)
+                </td>
+
+                <td>
+                    @movie.Genre.GenreType
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
