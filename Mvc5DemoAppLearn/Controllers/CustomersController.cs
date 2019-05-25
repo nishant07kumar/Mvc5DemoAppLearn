@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Mvc5DemoAppLearn.Models;
 using System.Data.Entity;
+using Mvc5DemoAppLearn.ViewModels;
 
 namespace Mvc5DemoAppLearn.Controllers
 {
@@ -25,11 +26,25 @@ namespace Mvc5DemoAppLearn.Controllers
         }
         public ActionResult Customer()
         {
-            var lstCustomers = _myDBContext.Customers.Include(Cust=>Cust.MembershipType);
+            var lstCustomers = _myDBContext.Customers.Include(Cust => Cust.MembershipType);
 
 
             return View(lstCustomers);
         }
+
+        public ActionResult New()
+        {
+
+            var _membershipType = _myDBContext.MembershipTypes.ToList();
+
+            var customerFormViewModel = new CustomerFormViewModel
+            {
+                MembershipTypes = _membershipType
+            };
+
+            return View("CustomerForm", customerFormViewModel);
+        }
+
 
         public ActionResult CustomerDetails(int? custID)
         {
@@ -41,5 +56,43 @@ namespace Mvc5DemoAppLearn.Controllers
             return View(lstCustomer);
         }
 
+        [HttpPost]
+        public ActionResult SaveCustomer(Customer customer)
+        {
+
+            if (customer.Id == 0)
+            {
+                _myDBContext.Customers.Add(customer);
+            }
+            else
+            {
+                var existingCustomer = _myDBContext.Customers.Single(cust => cust.Id == customer.Id);
+                existingCustomer.CustomerName = customer.CustomerName;
+                existingCustomer.BirthDate = customer.BirthDate;
+                existingCustomer.MembershipTypeID = customer.MembershipTypeID;
+                existingCustomer.IsSubscribeToNewsLetter = customer.IsSubscribeToNewsLetter;
+                
+            }
+            _myDBContext.SaveChanges();
+
+            return RedirectToAction("Customer", "Customers");
+        }
+
+        public ActionResult Edit(int? custID)
+        {
+            var lstCustomer = _myDBContext.Customers.FirstOrDefault(t => t.Id == custID);
+
+            if (lstCustomer == null)
+                return HttpNotFound();
+
+            var customerFormViewModel = new CustomerFormViewModel
+            {
+                Customer = lstCustomer,
+                MembershipTypes = _myDBContext.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", customerFormViewModel);
+
+        }
     }
 }

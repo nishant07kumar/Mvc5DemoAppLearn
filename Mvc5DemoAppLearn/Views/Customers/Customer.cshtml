@@ -10,7 +10,7 @@
 <h2>Customer</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Customer", "New", "Customers")
 </p>
 <table class="table">
     <tr>
@@ -34,7 +34,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.CustomerName, "CustomerDetails", "Customers", new { custID = item.Id }, null)
+                    @Html.ActionLink(item.CustomerName, "Edit", "Customers", new { custID = item.Id }, null)
                 </td>
 
                 <td>
