@@ -37,6 +37,7 @@ namespace Mvc5DemoAppLearn.Controllers
 
             var customerFormViewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = _membershipType
             };
 
@@ -55,8 +56,20 @@ namespace Mvc5DemoAppLearn.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken()]
         public ActionResult SaveCustomer(Customer customer)
         {
+
+            if (!ModelState.IsValid)
+            {
+                var customerFormViewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _myDBContext.MembershipTypes.ToList()
+
+                };
+                return View("CustomerForm", customerFormViewModel);
+            }
 
             if (customer.Id == 0)
             {
@@ -69,7 +82,7 @@ namespace Mvc5DemoAppLearn.Controllers
                 existingCustomer.BirthDate = customer.BirthDate;
                 existingCustomer.MembershipTypeID = customer.MembershipTypeID;
                 existingCustomer.IsSubscribeToNewsLetter = customer.IsSubscribeToNewsLetter;
-                
+
             }
             _myDBContext.SaveChanges();
 

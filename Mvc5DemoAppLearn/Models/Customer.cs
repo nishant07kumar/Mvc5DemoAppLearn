@@ -16,6 +16,7 @@ namespace Mvc5DemoAppLearn.Models
         public string CustomerName { get; set; }
 
         [Display(Name = "Date of Birth")]
+        [MembershipAgeValidation]
         public DateTime? BirthDate { get; set; }
 
         public bool IsSubscribeToNewsLetter { get; set; }

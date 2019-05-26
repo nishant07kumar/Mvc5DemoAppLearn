@@ -7,19 +7,25 @@
 <h2>New Customer</h2>
 @using (Html.BeginForm("SaveCustomer", "Customers"))
 {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Please Fix Below Errors.")
+
     <div class="form-group">
         @Html.LabelFor(cust => cust.Customer.CustomerName)
         @Html.TextBoxFor(cust => cust.Customer.CustomerName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(cust => cust.Customer.CustomerName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(cust => cust.Customer.MembershipTypeID)
+        @Html.DropDownListFor(cust => cust.Customer.MembershipTypeID, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select a Membership type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(cust => cust.Customer.MembershipTypeID)
     </div>
     <div class="form-group">
         @Html.LabelFor(cust => cust.Customer.BirthDate)
         @Html.TextBoxFor(cust => cust.Customer.BirthDate, "{0:d MMM yyyy }", new { @class = "form-control" })
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(cust => cust.Customer.MembershipTypeID)
-        @Html.DropDownListFor(cust => cust.Customer.MembershipTypeID, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select a Membership type", new { @class = "form-control" })
-    </div>
+
     <div class="checkbox">
         <label>
             @Html.CheckBoxFor(cust => cust.Customer.IsSubscribeToNewsLetter) Subscribe To NewsLetter?
@@ -29,4 +35,6 @@
     <button type="submit" class="btn btn-primary">Save Customer</button>
 }
 
-
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
