@@ -7,18 +7,21 @@
 
 <table class="table">
     <tr>
+        @Html.ActionLink("Add Movie", "MovieForm", "Movies",new { @class="btn btn-primary"})
+    </tr>
+    <tr>
         <th>
             Movie
         </th>
         <th>
             Genre
         </th>
-        >
+
     </tr>
     @if (!Model.Any())
     {
         <tr>
-            <td><h2>Movies are not there for Movie Rental Application.</h2></td>
+            <td><h2>Movies are not there for Rental.</h2></td>
         </tr>
     }
     else
@@ -27,7 +30,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(movie.MovieName, "MovieDetails", "Movies", new { movieId = movie.Id }, null)
+                    @Html.ActionLink(movie.MovieName, "EditMovie", "Movies", new { movieId = movie.Id }, null)
                 </td>
 
                 <td>

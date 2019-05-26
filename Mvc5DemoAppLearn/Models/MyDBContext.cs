@@ -16,5 +16,7 @@ namespace Mvc5DemoAppLearn.Models
         public DbSet<Movie> Movies { get; set; }// My domain models
 
         public DbSet<MembershipTypes> MembershipTypes { get; set; }// My domain models
+
+        public DbSet<Genre> Genre { get; set; }// My domain models
     }
 }
