@@ -13,7 +13,10 @@ namespace Mvc5DemoAppLearn.Controllers
     public class MoviesController : Controller
     {
         // GET: Movies
-
+        public ActionResult Index()
+        {
+            return RedirectToAction("Movies", "Movies");
+        }
 
 
         private MyDBContext _myDBContext;
@@ -66,19 +69,33 @@ namespace Mvc5DemoAppLearn.Controllers
 
         }
 
-        public ActionResult SaveMovie(MovieFormViewModel movie)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public ActionResult SaveMovie(MovieFormViewModel movieForm)
         {
-            if (movie.Movies.Id == 0)
+
+            if (!ModelState.IsValid)
             {
-                _myDBContext.Movies.Add(movie.Movies);
+                var movieFormViewModel = new MovieFormViewModel
+                {
+                    Movies = movieForm.Movies,
+                    Genre = _myDBContext.Genre.ToList()
+
+                };
+                return View("MovieForm", movieFormViewModel);
+            }
+            if (movieForm.Movies.Id == 0)
+            {
+                _myDBContext.Movies.Add(movieForm.Movies);
             }
             else
             {
-                var existingMovie = _myDBContext.Movies.Single(mov => mov.Id == movie.Movies.Id);
-                existingMovie.MovieName = movie.Movies.MovieName;
-                existingMovie.QuntityInStock = movie.Movies.QuntityInStock;
-                existingMovie.ReleaseDate = movie.Movies.ReleaseDate;
-                existingMovie.GenreID = movie.Movies.GenreID;
+                var existingMovie = _myDBContext.Movies.Single(mov => mov.Id == movieForm.Movies.Id);
+                existingMovie.MovieName = movieForm.Movies.MovieName;
+                existingMovie.QuntityInStock = movieForm.Movies.QuntityInStock;
+                existingMovie.ReleaseDate = movieForm.Movies.ReleaseDate;
+                existingMovie.GenreID = movieForm.Movies.GenreID;
             }
 
             _myDBContext.SaveChanges();

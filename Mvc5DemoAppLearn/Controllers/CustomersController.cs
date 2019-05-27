@@ -20,6 +20,11 @@ namespace Mvc5DemoAppLearn.Controllers
 
         }
 
+        public ActionResult Index()
+        {
+            return RedirectToAction("Customer", "Customers");
+        }
+
         protected override void Dispose(bool disposing)
         {
             _myDBContext.Dispose();
