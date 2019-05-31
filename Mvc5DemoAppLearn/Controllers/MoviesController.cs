@@ -47,6 +47,7 @@ namespace Mvc5DemoAppLearn.Controllers
             var _genre = _myDBContext.Genre.ToList();
             var _movieFormViewModel = new MovieFormViewModel
             {
+                Movies = new Movie(),
                 Genre = _genre
             };
             return View(_movieFormViewModel);
