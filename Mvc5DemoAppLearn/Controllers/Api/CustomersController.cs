@@ -24,28 +24,28 @@ namespace Mvc5DemoAppLearn.Controllers.Api
 
         }
 
-        public CustomerDto GetCustomer(int custId)
+        public IHttpActionResult GetCustomer(int custId)
         {
             Customer customer = _myDBContext.Customers.SingleOrDefault(cust => cust.Id == custId);
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            return Mapper.Map<Customer, CustomerDto>(customer);
+            return Ok(Mapper.Map<Customer, CustomerDto>(customer));
 
         }
 
         [HttpPost]
-        public CustomerDto CreateCustomer(CustomerDto customerDto)
+        public IHttpActionResult CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _myDBContext.Customers.Add(customer);
             _myDBContext.SaveChanges();
 
             customerDto.Id = customer.Id;
-            return customerDto;
+            return Created(new Uri(Request.RequestUri + "/" + customerDto.Id), customerDto);
 
         }
 

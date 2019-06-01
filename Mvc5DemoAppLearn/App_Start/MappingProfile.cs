@@ -16,6 +16,9 @@ namespace Mvc5DemoAppLearn.App_Start
         {
             Mapper.CreateMap<Customer, CustomerDto>();
             Mapper.CreateMap<CustomerDto, Customer>();
+
+            Mapper.CreateMap<Movie, MoviesDtos>();
+            Mapper.CreateMap<MoviesDtos, Movie>();
         }
 
 
