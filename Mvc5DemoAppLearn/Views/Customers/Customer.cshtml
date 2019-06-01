@@ -1,9 +1,6 @@
 ﻿@model IEnumerable<Mvc5DemoAppLearn.Models.Customer>
 
 @{
-    /**/
-
-    /**/
 
     ViewBag.Title = "Customer";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,16 +11,24 @@
 <p>
     @Html.ActionLink("Create New Customer", "New", "Customers")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Customer
-        </th>
-        <th>
-            Discount Rate
-        </th>
-        <th>Membership Name</th>
-    </tr>
+<table id="tblCustoemrs" class="table">
+
+    <thead class="page-header">
+    <th>
+        Customer
+    </th>
+    <th>
+        Discount Rate
+    </th>
+    <th>
+        Membership Name
+    </th>
+    <th>
+        Delete
+    </th>
+
+    </thead>
+
     @if (!Model.Any())
     {
         <tr>
@@ -45,8 +50,45 @@
                 <td>
                     @item.MembershipType.MembershipName
                 </td>
+                <td>
+                    <button data-customer-id="@item.Id" class="btn-link deleteCustomerBtn">Delete</button>
+                </td>
             </tr>
         }
     }
 
 </table>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#tblCustoemrs").DataTable();
+
+            $("#tblCustoemrs").on("click", ".deleteCustomerBtn", function () {
+                var delbutton = $(this);
+
+                bootbox.confirm("Are you sure, you want to delete this Custoemr", function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/api/Customers/?custid=" + delbutton.attr('data-customer-id'),
+                            success: function () {
+                                delbutton.parents('tr').remove();
+                            },
+                            error: function () {
+                                console.log("There is some error in deleting the customer");
+                            }
+
+                        })
+                    }
+                })
+
+            }
+            );
+
+        });
+
+    </script>
+
+}

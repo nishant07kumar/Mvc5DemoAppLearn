@@ -14,10 +14,10 @@ namespace Mvc5DemoAppLearn.App_Start
 
         public MappingProfile()
         {
-            Mapper.CreateMap<Customer, CustomerDto>();
+            Mapper.CreateMap<Customer, CustomerDto>().ForMember(cust => cust.Id, opt => opt.Ignore());
             Mapper.CreateMap<CustomerDto, Customer>();
 
-            Mapper.CreateMap<Movie, MoviesDtos>();
+            Mapper.CreateMap<Movie, MoviesDtos>().ForMember(m => m.Id, opt => opt.Ignore());
             Mapper.CreateMap<MoviesDtos, Movie>();
         }
 
