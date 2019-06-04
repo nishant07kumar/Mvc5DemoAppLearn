@@ -14,11 +14,12 @@ namespace Mvc5DemoAppLearn.App_Start
 
         public MappingProfile()
         {
-            Mapper.CreateMap<Customer, CustomerDto>().ForMember(cust => cust.Id, opt => opt.Ignore());
-            Mapper.CreateMap<CustomerDto, Customer>();
+            Mapper.CreateMap<Customer, CustomerDto>();
+            Mapper.CreateMap<CustomerDto, Customer>().ForMember(cust => cust.Id, opt => opt.Ignore());
+            Mapper.CreateMap<MembershipTypes, MembershipTypeDto>();
 
-            Mapper.CreateMap<Movie, MoviesDtos>().ForMember(m => m.Id, opt => opt.Ignore());
-            Mapper.CreateMap<MoviesDtos, Movie>();
+            Mapper.CreateMap<Movie, MoviesDtos>();
+            Mapper.CreateMap<MoviesDtos, Movie>().ForMember(m => m.Id, opt => opt.Ignore());
         }
 
 

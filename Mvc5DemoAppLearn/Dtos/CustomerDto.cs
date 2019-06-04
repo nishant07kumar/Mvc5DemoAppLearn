@@ -22,5 +22,7 @@ namespace Mvc5DemoAppLearn.Dtos
         public bool IsSubscribeToNewsLetter { get; set; }
 
         public byte MembershipTypeID { get; set; }
+
+        public MembershipTypeDto MembershipType { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Http;
 using Mvc5DemoAppLearn.Models;
 using Mvc5DemoAppLearn.Dtos;
 using AutoMapper;
+using System.Data.Entity;
 
 namespace Mvc5DemoAppLearn.Controllers.Api
 {
@@ -18,9 +19,10 @@ namespace Mvc5DemoAppLearn.Controllers.Api
             _myDBContext = new MyDBContext();
         }
 
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
-            return _myDBContext.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            var customerDto = _myDBContext.Customers.Include(cu => cu.MembershipType).ToList().Select(Mapper.Map<Customer, CustomerDto>);
+            return Ok(customerDto);
 
         }
 

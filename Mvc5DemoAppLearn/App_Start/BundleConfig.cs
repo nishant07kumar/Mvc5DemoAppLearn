@@ -11,6 +11,7 @@ namespace Mvc5DemoAppLearn
             bundles.Add(new ScriptBundle("~/bundles/library").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/bootstrap.js",
+                         "~/Scripts/bootbox.js",
                         "~/Scripts/datatables/jquery.datatables.js",
                          "~/Scripts/datatables/datatables.bootstrap.js"
                         ));

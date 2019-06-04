@@ -14,59 +14,90 @@
 <table id="tblCustoemrs" class="table">
 
     <thead class="page-header">
-    <th>
-        Customer
-    </th>
-    <th>
-        Discount Rate
-    </th>
-    <th>
-        Membership Name
-    </th>
-    <th>
-        Delete
-    </th>
-
-    </thead>
-
-    @if (!Model.Any())
-    {
         <tr>
-            <td><h2>Customer are not there for Movie Rental Application.</h2></td>
+            <th>
+                Customer
+            </th>
+            <th>
+                Discount Rate
+            </th>
+            <th>
+                Membership Name
+            </th>
+            <th>
+                Delete
+            </th>
         </tr>
-    }
-    else
-    {
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(item.CustomerName, "Edit", "Customers", new { custID = item.Id }, null)
-                </td>
+    </thead>
+    <tbody>
+        @*@if (!Model.Any())
+            {
+                <tr>
+                    <td><h2>Customer are not there for Movie Rental Application.</h2></td>
+                </tr>
+            }
+            else
+            {*@
+        @*foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.CustomerName, "Edit", "Customers", new { custID = item.Id }, null)
+                        </td>
 
-                <td>
-                    @item.MembershipType.DiscoutRate%
-                </td>
-                <td>
-                    @item.MembershipType.MembershipName
-                </td>
-                <td>
-                    <button data-customer-id="@item.Id" class="btn-link deleteCustomerBtn">Delete</button>
-                </td>
-            </tr>
-        }
-    }
-
+                        <td>
+                            @item.MembershipType.DiscoutRate%
+                        </td>
+                        <td>
+                            @item.MembershipType.MembershipName
+                        </td>
+                        <td>
+                            <button data-customer-id="@item.Id" class="btn-link deleteCustomerBtn">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }*@
+    </tbody>
 </table>
 
-@section Scripts{
+@section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#tblCustoemrs").DataTable();
+            var dataTable = $("#tblCustoemrs").DataTable({
+                ajax: {
+                    url: "/api/Customers/GetCustomers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "customerName",
+                        render: function (data, type, customer) {
+                            return "<a href='/Customers/Edit?custID=" + customer.id + "'>" + data + "</a>"
+                        }
+                    },
+                    {
+                        data: "membershipType.discoutRate",
+
+                    },
+                    {
+                        data: "membershipType.membershipName",
+
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link deleteCustomerBtn' data-customer-id=" + data + ">Delete</button>"
+                        }
+                    }
+                ]
+
+
+            });
 
             $("#tblCustoemrs").on("click", ".deleteCustomerBtn", function () {
                 var delbutton = $(this);
+
 
                 bootbox.confirm("Are you sure, you want to delete this Custoemr", function (result) {
                     if (result) {
@@ -74,7 +105,7 @@
                             type: "DELETE",
                             url: "/api/Customers/?custid=" + delbutton.attr('data-customer-id'),
                             success: function () {
-                                delbutton.parents('tr').remove();
+                                dataTable.row(delbutton.parents('tr')).remove().draw();
                             },
                             error: function () {
                                 console.log("There is some error in deleting the customer");

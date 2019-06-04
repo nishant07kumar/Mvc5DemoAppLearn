@@ -31,8 +31,8 @@ namespace Mvc5DemoAppLearn.Controllers
         }
         public ActionResult Customer()
         {
-            var lstCustomers = _myDBContext.Customers.Include(Cust => Cust.MembershipType);
-            return View(lstCustomers);
+            //var lstCustomers = _myDBContext.Customers.Include(Cust => Cust.MembershipType);
+            return View();
         }
 
         public ActionResult New()
