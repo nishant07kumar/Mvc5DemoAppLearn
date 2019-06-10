@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Mvc5DemoAppLearn.Dtos;
 using AutoMapper;
+using System.Data.Entity;
 
 namespace Mvc5DemoAppLearn.Controllers.Api
 {
@@ -18,9 +19,10 @@ namespace Mvc5DemoAppLearn.Controllers.Api
             _myDBContext = new MyDBContext();
         }
 
-        public IEnumerable<MoviesDtos> GetMovie()
+        public IHttpActionResult GetMovies()
         {
-            return _myDBContext.Movies.ToList().Select(Mapper.Map<Movie, MoviesDtos>);
+            var movieDtos = _myDBContext.Movies.Include(mo => mo.Genre).ToList().Select(Mapper.Map<Movie, MoviesDtos>);
+            return Ok(movieDtos);
 
         }
 

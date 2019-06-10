@@ -20,6 +20,7 @@ namespace Mvc5DemoAppLearn.App_Start
 
             Mapper.CreateMap<Movie, MoviesDtos>();
             Mapper.CreateMap<MoviesDtos, Movie>().ForMember(m => m.Id, opt => opt.Ignore());
+            Mapper.CreateMap<Genre, GenreDtos>();
         }
 
 

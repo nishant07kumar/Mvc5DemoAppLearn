@@ -30,5 +30,8 @@ namespace Mvc5DemoAppLearn.Dtos
         [Required(ErrorMessage = "Genre is required.")]
         public int GenreID { get; set; }
 
+        public GenreDtos Genre { get; set; }
+        
+
     }
 }
